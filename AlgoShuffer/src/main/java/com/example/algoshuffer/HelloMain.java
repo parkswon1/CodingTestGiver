@@ -4,6 +4,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class HelloMain {
     public static void main(String[] args) throws Exception {
@@ -17,7 +19,12 @@ public class HelloMain {
 
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(response.body());
-    }
+        // JSON 데이터를 객체로 변환
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Object jsonObject = gson.fromJson(response.body(), Object.class);
 
+        // 객체를 다시 JSON 문자열로 변환하여 출력
+        String prettyJson = gson.toJson(jsonObject);
+        System.out.println(prettyJson);
+    }
 }
