@@ -15,7 +15,8 @@ public class SolvedAPI {
     public static void main(String[] args) throws Exception {
         //String uri = getProblemByArray(List.of(1000));
         //String uri = getUserSolvedProblemByName("parkswon1");
-        String uri = getUserByName("parkswon1");
+        //String uri = getUserByName("parkswon1");
+        String uri = getTag();
 
         // HTTP 요청 생성
         solvedacAPIRequest(uri);
@@ -62,6 +63,12 @@ public class SolvedAPI {
                 .collect(Collectors.joining(","));
 
         String uri = "https://solved.ac/api/v3/problem/lookup?problemIds=" + problemIdsParam;
+        return uri;
+    }
+
+    //문제 tag들 가져오기
+    private static String getTag(){
+        String uri = "https://solved.ac/api/v3/search/tag?query";
         return uri;
     }
 }
