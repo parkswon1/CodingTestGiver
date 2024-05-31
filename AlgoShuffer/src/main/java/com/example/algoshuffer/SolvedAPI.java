@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class HelloMain {
+public class SolvedAPI {
     public static void main(String[] args) throws Exception {
         //String uri = getProblemByArray(List.of(1000));
         //String uri = getUserSolvedProblemByName("parkswon1");
