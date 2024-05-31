@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Problem {
     @Id
-    private Long id;
+    private Long problemid;
 
     private String title;
 

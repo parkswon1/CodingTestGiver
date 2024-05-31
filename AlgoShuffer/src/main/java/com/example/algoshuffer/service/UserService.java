@@ -25,22 +25,16 @@ public class UserService {
         return user.getSolvedProblems();
     }
 
-    //name으로 회원 가입할때 name이 있으면 미성공 0 없다면 생성후 1
-    public int createUserByName(User user){
-        if (userRepository.findByName(user.getUsername()) == 1){
-            new RuntimeException("User already exitst");
-            return 0;
-        }else{
-            userRepository.save(user);
-            return 1;
-        }
+    //name으로 사용자의 정보 저장
+    public void saveUserByName(User user){
+        userRepository.save(user);
     }
 
     //id로 user가 있는지 확인하고 문제를 넣어주는데 문제가 등록되지 않은 문제면 새로 생성 이후 사용자 푼문제에 넣어줌
     public void addUserSolvedProblem(Long id, Set<Problem> problems){
         User user = findById(id);
         for (Problem problem : problems){
-            if (problemService.findById(problem.getId()) == null){
+            if (problemService.findById(problem.getProblemid()) == null){
                 problemService.createProblem(problem);
             }
             user.getSolvedProblems().add(problem);
