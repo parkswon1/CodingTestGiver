@@ -54,8 +54,8 @@ public class SolvedAPI {
     }
 
     //문제 tag들 가져오기
-    public static String getTag(){
-        String uri = "https://solved.ac/api/v3/search/tag?query";
+    public static String getTag(int page){
+        String uri = "https://solved.ac/api/v3/search/tag?query&page=" + page;
         return uri;
     }
 }
