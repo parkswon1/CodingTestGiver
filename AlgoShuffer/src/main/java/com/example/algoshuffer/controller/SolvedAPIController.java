@@ -19,6 +19,6 @@ public class SolvedAPIController {
     @GetMapping("/tag")
     public void fetchAndSaveProblemTag() throws IOException, InterruptedException {
         JsonObject tags = SolvedAPI.solvedacAPIRequest(SolvedAPI.getTag());
-        problemTagService.saveProblemTag(tags);
+        problemTagService.saveProblemTags(tags);
     }
 }
