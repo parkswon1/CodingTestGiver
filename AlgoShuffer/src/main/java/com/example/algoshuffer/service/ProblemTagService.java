@@ -6,7 +6,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,13 +15,11 @@ public class ProblemTagService {
     //tag전부를 받아와서 저장하는 메소드
     //item을 통해서 배열을 만들고
     //item의 bojtagid로 primarykey값을 만든다.
-    @Transactional
     public void saveProblemTags(JsonObject jsonObject){
-        JsonArray items = jsonObject.getAsJsonArray("itmes");
+        JsonArray items = jsonObject.get("items").getAsJsonArray();
 
         for (int i = 0; i < items.size(); i++){
             JsonObject item = items.get(i).getAsJsonObject();
-
             ProblemTag problemTag = new ProblemTag();
             problemTag.setBojTagId(item.get("bojTagId").getAsLong());
             problemTag.setKey((item.get("key").getAsString()));
@@ -36,6 +33,7 @@ public class ProblemTagService {
                     break;
                 }
             }
+            problemTagRepository.save(problemTag);
         }
     }
 }
