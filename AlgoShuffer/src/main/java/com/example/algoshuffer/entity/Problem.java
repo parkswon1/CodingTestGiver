@@ -12,6 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "problems")
 public class Problem {
     @Id
     @Column(name = "problem_id")
