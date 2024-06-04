@@ -19,7 +19,7 @@ public class SolvedAPIController {
     //24-06-03날자상 206개의 tag존재 5page까지 가져오면 됨
     @GetMapping("/tag")
     public void fetchAndSaveProblemTag() throws IOException, InterruptedException {
-        for (int page = 0; page < 6; page++){
+        for (int page = 1; page < 6; page++){
             JsonObject tags = SolvedAPI.solvedacAPIRequest(SolvedAPI.getTag(page));
             problemTagService.saveProblemTags(tags);
         }
