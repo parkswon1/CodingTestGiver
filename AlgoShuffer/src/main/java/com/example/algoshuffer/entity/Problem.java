@@ -23,11 +23,4 @@ public class Problem {
 
     @Column(name = "level")
     private int level;
-
-    @ManyToMany
-    @Column(name = "tags")
-    private Set<ProblemTag> bojTag = new HashSet<>();
-
-    @ManyToMany
-    private Set<User> solvedByUsers = new HashSet<>();
 }

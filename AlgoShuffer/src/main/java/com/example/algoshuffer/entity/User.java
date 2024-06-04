@@ -22,9 +22,6 @@ public class User {
     @Column(name = "username")
     private String username;
 
-    @ManyToMany
-    private Set<Problem> solvedProblems = new HashSet<>();
-
     public User(String username){
         this.username = username;
     }
