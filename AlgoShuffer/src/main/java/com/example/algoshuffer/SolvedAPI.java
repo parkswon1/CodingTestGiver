@@ -37,8 +37,8 @@ public class SolvedAPI {
 
 
     //사용자 이름으로 사용자가 푼 문제 가져오기
-    public static String getUserSolvedProblemByName(String User) {
-        String uri = "https://solved.ac/api/v3/search/problem?query=s%40" + User;
+    public static String getUserSolvedProblemByName(String User, int page) {
+        String uri = "https://solved.ac/api/v3/search/problem?query=s%40" + User + "&direction=asc&page=" + page +"&sort=id";
         return uri;
     }
 
