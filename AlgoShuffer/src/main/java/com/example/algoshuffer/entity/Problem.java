@@ -16,11 +16,14 @@ import java.util.Set;
 public class Problem {
     @Id
     @Column(name = "problem_id")
-    private Long problemid;
+    private Long problemId;
 
     @Column(name = "title")
     private String title;
 
     @Column(name = "level")
     private int level;
+
+    @Column(name = "accepted_user_count")
+    private Long acceptedUserCount;
 }
