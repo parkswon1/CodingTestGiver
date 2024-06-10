@@ -1,9 +1,14 @@
 package com.example.algoshuffer.entity;
 
+import com.example.algoshuffer.entity.Mapping.ProblemTagMapping;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -23,4 +28,7 @@ public class ProblemTag {
 
     @Column(name = "key")
     private String key;
+
+    @OneToMany(mappedBy = "problemTag")
+    private Set<ProblemTagMapping> problemTagMappings = new HashSet<>();
 }

@@ -1,12 +1,12 @@
 package com.example.algoshuffer.entity;
 
+import com.example.algoshuffer.entity.Mapping.ProblemTagMapping;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -26,4 +26,7 @@ public class Problem {
 
     @Column(name = "accepted_user_count")
     private Long acceptedUserCount;
+
+    @OneToMany(mappedBy = "problem")
+    private Set<ProblemTagMapping> problemTagMappings = new HashSet<>();
 }
