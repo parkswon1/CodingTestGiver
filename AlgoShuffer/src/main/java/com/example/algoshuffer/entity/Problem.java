@@ -29,4 +29,7 @@ public class Problem {
 
     @OneToMany(mappedBy = "problem")
     private Set<ProblemTagMapping> problemTagMappings = new HashSet<>();
+
+    @OneToMany(mappedBy = "problem")
+    private Set<User> userProblemMappings = new HashSet<>();
 }
