@@ -10,18 +10,20 @@ import lombok.Setter;
 import java.io.Serializable;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "problem_tag_mapping")
 public class ProblemTagMapping implements Serializable {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "boj_tag_id")
-    private ProblemTag problemTag;
 
-    @Id
-    @ManyToOne
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(optional = false)
     @JoinColumn(name = "problem_id")
     private Problem problem;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "boj_tag_id")
+    private ProblemTag problemTag;
 }
