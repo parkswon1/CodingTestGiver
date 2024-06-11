@@ -20,10 +20,10 @@ public class ProblemTagMapping implements Serializable {
     private Long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "problem_id")
+    @JoinColumn(name = "problem_id", nullable = false)
     private Problem problem;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "boj_tag_id")
+    @JoinColumn(name = "boj_tag_id", nullable = false)
     private ProblemTag problemTag;
 }
