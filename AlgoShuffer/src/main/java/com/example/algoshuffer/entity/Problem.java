@@ -18,10 +18,10 @@ public class Problem {
     @Column(name = "problem_id")
     private Long problemId;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = true)
     private String title;
 
-    @Column(name = "level")
+    @Column(name = "level", nullable = true)
     private int level;
 
     @Column(name = "accepted_user_count")
