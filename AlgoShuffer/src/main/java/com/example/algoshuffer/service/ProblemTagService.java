@@ -36,4 +36,8 @@ public class ProblemTagService {
             problemTagRepository.save(problemTag);
         }
     }
+
+    public ProblemTag findById(Long id){
+        return problemTagRepository.findById(id).orElse(null);
+    }
 }
