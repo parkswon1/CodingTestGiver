@@ -1,6 +1,7 @@
 package com.example.algoshuffer.entity;
 
 import com.example.algoshuffer.entity.Mapping.ProblemTagMapping;
+import com.example.algoshuffer.entity.Mapping.UserProblemMapping;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,5 +32,5 @@ public class Problem {
     private Set<ProblemTagMapping> problemTagMappings = new HashSet<>();
 
     @OneToMany(mappedBy = "problem")
-    private Set<User> userProblemMappings = new HashSet<>();
+    private Set<UserProblemMapping> userProblemMappings = new HashSet<>();
 }

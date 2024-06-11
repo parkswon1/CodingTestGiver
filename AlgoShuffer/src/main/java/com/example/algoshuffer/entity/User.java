@@ -1,5 +1,6 @@
 package com.example.algoshuffer.entity;
 
+import com.example.algoshuffer.entity.Mapping.UserProblemMapping;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class User {
     private String username;
 
     @OneToMany(mappedBy = "user")
-    private Set<Problem> solvedProblems = new HashSet<>();
+    private Set<UserProblemMapping> solvedProblems = new HashSet<>();
 
     public User(String username){
         this.username = username;
