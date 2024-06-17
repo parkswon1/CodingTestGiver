@@ -1,4 +1,4 @@
-package com.example.algoshuffer.controller;
+package com.example.algoshuffer.restController;
 
 import com.example.algoshuffer.SolvedAPI;
 import com.example.algoshuffer.entity.User;
