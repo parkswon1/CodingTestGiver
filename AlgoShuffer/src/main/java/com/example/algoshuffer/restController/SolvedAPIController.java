@@ -77,8 +77,8 @@ public class SolvedAPIController {
                 user = new User();
                 user.setUsername(username);
             }
-            user.setRank(JsonUser.get("rank").getAsLong());
-            user.setRating(JsonUser.get("rating").getAsLong());
+            user.setRank(JsonUser.get("rank").getAsInt());
+            user.setRating(JsonUser.get("rating").getAsInt());
             userService.saveUser(user);
 
             int endPage = (JsonUser.get("solvedCount").getAsInt() / 50) + 1;
