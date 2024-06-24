@@ -12,11 +12,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    //id로 user를 찾는 메소드
-    public User findById(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
+    //이름으로 회원 정보 찾기
     public User findByName(String name) {
         Optional<User> userOptional = userRepository.findByUsername(name);
         return userOptional.orElse(null);
