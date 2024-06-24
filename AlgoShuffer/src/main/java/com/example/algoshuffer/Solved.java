@@ -8,7 +8,7 @@ public class Solved {
     //(문제 난이도 합 * 2) + (200 * [1 - 0.99**사용자가 푼 문제수]) 문제들이 주어지면 레이팅 계산하는 메서드(tag전용)
     public static int tagRatingCalculator(List<Problem> solvedProblems){
         return ((solvedProblems.stream().mapToInt(Problem::getLevel).sum() * 2) +
-                (int) (200 * (Math.pow(0.99, solvedProblems.size()))));
+                (int) (200 * (1 - Math.pow(0.99, solvedProblems.size()))));
     }
 
     //사용자의 레이팅을 기반으로 티어를 계산해주는 메서드
