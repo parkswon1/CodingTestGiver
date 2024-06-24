@@ -1,6 +1,7 @@
 package com.example.algoshuffer.entity;
 
 import com.example.algoshuffer.entity.Mapping.UserProblemMapping;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,14 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "rating")
+    private Long rating;
+
+    @Column(name = "rank")
+    private Long rank;
+
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<UserProblemMapping > solvedProblems = new HashSet<>();
 
     public User(String username){
