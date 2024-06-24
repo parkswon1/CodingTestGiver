@@ -11,7 +11,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,14 +34,18 @@ public class ProblemService{
         return Solved.tierCalculator(Solved.tagRatingCalculator(solvedProblems));
     }
 
-    //사용자 id랑 tagid를 받아서 5개의 문제를 반환
-    public List<Problem> findByUserAndTag(User user, Long tagId){
+    //User랑 tagId를 받아서 5개의 문제를 반환
+    public List<Problem> findProblemByUserAndTag(User user, Long tagId){
         int userTagTier = userTagAverageLevel(user.getId(), tagId);
         int userTier = Solved.tierCalculator(user.getRating());
         int averageTier = (userTagTier + userTier)/2;
-        Pageable pageable = PageRequest.of(0, 5);
-        List<Problem> recommendedProblems = problemRepository.findProblemsByTagExcludingUserSolved(user.getId(), tagId, averageTier, pageable);
-        return recommendedProblems;
+        return problemRepository.findProblemsByTagExcludingUserSolved(user.getId(), tagId, averageTier, PageRequest.of(0, 5));
+    }
+
+    //User를 받아와서 10개의 문제를 반환
+    public List<Problem> findProblemByUser(User user){
+        int userTier = Solved.tierCalculator(user.getRating());
+        return problemRepository.findProblemByUser(user.getId(), userTier, PageRequest.of(0, 10));
     }
 
     //문제들을 저장하는 메소드
