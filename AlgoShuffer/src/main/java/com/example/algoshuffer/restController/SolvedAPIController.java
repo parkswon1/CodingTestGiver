@@ -10,7 +10,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,27 +64,34 @@ public class SolvedAPIController {
     }
 
     //user를 입력하면 user이름을 받아와서 user가 푼문제를 저장
-    @GetMapping("/user")
-    public void fetchAndSaveUser() throws IOException, InterruptedException{
-        String username = "parkswon1";
-        int page = 1;
-        User user = userService.findByName(username);
-        if (user == null){
-            userService.saveUserByName(username);
-            user = userService.findByName(username);
-        }
-
-        String uri = SolvedAPI.getUserSolvedProblemByName(username, page);
+    @GetMapping("/user/{username}")
+    public ResponseEntity<String> fetchAndSaveUser(@PathVariable String username) throws IOException, InterruptedException{
+        String uri = SolvedAPI.getUserByName(username);
         HttpResponse<String> response = SolvedAPI.solvedacAPIRequest(uri);
-        JsonObject JsonUser = parser.parse(response.body()).getAsJsonObject();
-        userProblemMappingService.saveUserProblemMapping(JsonUser, user);
+        JsonObject originJson = parser.parse(response.body()).getAsJsonObject();
+        JsonObject JsonUser = originJson.getAsJsonArray("items").get(0).getAsJsonObject();
+        if (originJson.get("count").getAsInt() == 1){
 
-        int endPage = (JsonUser.get("count").getAsInt() / 50) + 1;
-        for (page = 2; page <= endPage; page++){
-            uri = SolvedAPI.getUserSolvedProblemByName(username, page);
-            response = SolvedAPI.solvedacAPIRequest(uri);
-            JsonUser = parser.parse(response.body()).getAsJsonObject();
-            userProblemMappingService.saveUserProblemMapping(JsonUser, user);
+            User user = userService.findByName(username);
+            if (user == null){
+                user = new User();
+                user.setUsername(username);
+            }
+            user.setRank(JsonUser.get("rank").getAsLong());
+            user.setRating(JsonUser.get("rating").getAsLong());
+            userService.saveUser(user);
+
+            int endPage = (JsonUser.get("solvedCount").getAsInt() / 50) + 1;
+            for (int page = 1; page <= endPage; page++){
+                uri = SolvedAPI.getUserSolvedProblemByName(username, page);
+                response = SolvedAPI.solvedacAPIRequest(uri);
+                originJson = parser.parse(response.body()).getAsJsonObject();
+                userProblemMappingService.saveUserProblemMapping(originJson, user);
+            }
+            return ResponseEntity.ok("User fetched successfully.");
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
     }
 }
