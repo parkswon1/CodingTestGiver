@@ -2,11 +2,11 @@ package com.example.algoshuffer.entity.Mapping;
 
 import com.example.algoshuffer.entity.Problem;
 import com.example.algoshuffer.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 
 @Entity
 @Getter
@@ -19,9 +19,11 @@ public class UserProblemMapping {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "problem_id", nullable = false)
+    @JsonIgnore
     private Problem problem;
 }
