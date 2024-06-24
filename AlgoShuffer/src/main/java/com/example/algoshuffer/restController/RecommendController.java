@@ -16,8 +16,8 @@ public class RecommendController {
     private final UserService userService;
     private final ProblemService problemService;
 
-    @GetMapping("/tag/{username}/{tagId}")
-    public List<Problem> getProblemByTag(@PathVariable String username,@PathVariable Long tagId){
+    @GetMapping("/{username}/tag/{tagId}")
+    public List<Problem> getProblemByUsernameAndTag(@PathVariable String username,@PathVariable Long tagId){
         User user = userService.findByName(username);
         List<Problem> tagProblem = problemService.findByUserAndTag(user, tagId);
         return tagProblem;
