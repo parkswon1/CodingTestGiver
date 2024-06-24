@@ -25,10 +25,10 @@ public class User {
     private String username;
 
     @Column(name = "rating")
-    private Long rating;
+    private int rating;
 
     @Column(name = "rank")
-    private Long rank;
+    private int rank;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
