@@ -2,6 +2,7 @@ package com.example.algoshuffer.entity.Mapping;
 
 import com.example.algoshuffer.entity.Problem;
 import com.example.algoshuffer.entity.ProblemTag;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,9 +22,11 @@ public class ProblemTagMapping implements Serializable {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "problem_id", nullable = false)
+    @JsonIgnore
     private Problem problem;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "boj_tag_id", nullable = false)
+    @JsonIgnore
     private ProblemTag problemTag;
 }
