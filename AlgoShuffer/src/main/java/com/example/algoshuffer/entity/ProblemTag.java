@@ -1,13 +1,13 @@
 package com.example.algoshuffer.entity;
 
 import com.example.algoshuffer.entity.Mapping.ProblemTagMapping;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,5 +30,6 @@ public class ProblemTag {
     private String key;
 
     @OneToMany(mappedBy = "problemTag")
+    @JsonIgnore
     private Set<ProblemTagMapping> problemTagMappings = new HashSet<>();
 }
