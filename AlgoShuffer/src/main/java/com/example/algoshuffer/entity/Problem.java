@@ -2,6 +2,7 @@ package com.example.algoshuffer.entity;
 
 import com.example.algoshuffer.entity.Mapping.ProblemTagMapping;
 import com.example.algoshuffer.entity.Mapping.UserProblemMapping;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +30,10 @@ public class Problem {
     private Long acceptedUserCount;
 
     @OneToMany(mappedBy = "problem")
+    @JsonIgnore
     private Set<ProblemTagMapping> problemTagMappings = new HashSet<>();
 
     @OneToMany(mappedBy = "problem")
+    @JsonIgnore
     private Set<UserProblemMapping> userProblemMappings = new HashSet<>();
 }
