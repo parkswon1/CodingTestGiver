@@ -1,13 +1,17 @@
 package com.example.algoshuffer.service;
 
+import com.example.algoshuffer.Solved;
 import com.example.algoshuffer.entity.Mapping.ProblemTagMapping;
 import com.example.algoshuffer.entity.Problem;
 import com.example.algoshuffer.entity.ProblemTag;
+import com.example.algoshuffer.entity.User;
 import com.example.algoshuffer.repository.ProblemRepository;
 import com.example.algoshuffer.service.Mapping.ProblemTagMappingService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,16 +25,24 @@ public class ProblemService{
     private final ProblemTagMappingService problemTagMappingService;
     private final ProblemTagService problemTagService;
 
-    public Problem findById(Long id){
-        return problemRepository.findById(id).orElse(null);
-    }
-
     public List<Problem> findByIds(Set<Long> problemsIds){
         return problemRepository.findAllById(problemsIds);
     }
 
-    public void saveProblem(Problem problem){
-        problemRepository.save(problem);
+    //특정 태그를 기준으로 사용자가 푼문제의 티어을 계산해서 넘겨주는 메서드
+    public int userTagAverageLevel(Long userId, Long tagId){
+        List<Problem> solvedProblems = problemRepository.findSolvedProblemsByUserAndTag(userId, tagId);
+        return Solved.tierCalculator(Solved.tagRatingCalculator(solvedProblems));
+    }
+
+    //사용자 id랑 tagid를 받아서 5개의 문제를 반환
+    public List<Problem> findByUserAndTag(User user, Long tagId){
+        int userTagTier = userTagAverageLevel(user.getId(), tagId);
+        int userTier = Solved.tierCalculator(user.getRating());
+        int averageTier = (userTagTier + userTier)/2;
+        Pageable pageable = PageRequest.of(0, 5);
+        List<Problem> recommendedProblems = problemRepository.findProblemsByTagExcludingUserSolved(user.getId(), tagId, averageTier, pageable);
+        return recommendedProblems;
     }
 
     //문제들을 저장하는 메소드
