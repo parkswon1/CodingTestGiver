@@ -22,10 +22,8 @@ public class UserService {
         return userOptional.orElse(null);
     }
 
-    //name으로 사용자의 정보 저장
-    public void saveUserByName(String name) {
-        User user = new User();
-        user.setUsername(name);
+    //사용자의 정보 저장
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 }
