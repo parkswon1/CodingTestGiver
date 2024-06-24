@@ -8,10 +8,9 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 public class SolvedAPI {
+    private static final HttpClient httpClient = HttpClient.newHttpClient();
+
     //uri요청이 있을시 요청을 받아주고 데이터 받아옴
     public static HttpResponse<String> solvedacAPIRequest(String uri) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
@@ -21,22 +20,18 @@ public class SolvedAPI {
                 .GET()
                 .build();
 
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-
-        return response;
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
     //사용자 이름으로 사용자 정보 가져오기
     public static String getUserByName(String User) {
-        String uri = "https://solved.ac/api/v3/search/user?query=" + User;
-        return uri;
+        return "https://solved.ac/api/v3/search/user?query=" + User;
     }
 
 
     //사용자 이름으로 사용자가 푼 문제 가져오기
     public static String getUserSolvedProblemByName(String User, int page) {
-        String uri = "https://solved.ac/api/v3/search/problem?query=s%40" + User + "&direction=asc&page=" + page +"&sort=id";
-        return uri;
+        return "https://solved.ac/api/v3/search/problem?query=s%40" + User + "&direction=asc&page=" + page +"&sort=id";
     }
 
 
@@ -46,13 +41,11 @@ public class SolvedAPI {
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
 
-        String uri = "https://solved.ac/api/v3/problem/lookup?problemIds=" + problemIdsParam;
-        return uri;
+        return "https://solved.ac/api/v3/problem/lookup?problemIds=" + problemIdsParam;
     }
 
     //문제 tag들 가져오기
     public static String getTag(int page){
-        String uri = "https://solved.ac/api/v3/search/tag?query&page=" + page;
-        return uri;
+        return "https://solved.ac/api/v3/search/tag?query&page=" + page;
     }
 }
