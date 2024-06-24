@@ -10,7 +10,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,14 +30,13 @@ public class SolvedAPIController {
     private final ProblemService problemService;
     private final UserService userService;
     private final UserProblemMappingService userProblemMappingService;
-    public static JsonParser parser = new JsonParser();
 
     //24-06-03날자상 206개의 tag존재 5page까지 가져오면 됨
     @GetMapping("/tag")
     public void fetchAndSaveProblemTag() throws IOException, InterruptedException {
         for (int page = 1; page < 6; page++){
             HttpResponse<String> response = SolvedAPI.solvedacAPIRequest(SolvedAPI.getTag(page));
-            JsonObject tags = parser.parse(response.body()).getAsJsonObject();
+            JsonObject tags = JsonParser.parseString(response.body()).getAsJsonObject();
             problemTagService.saveProblemTags(tags);
         }
     }
@@ -58,7 +56,7 @@ public class SolvedAPIController {
 
             String uri = SolvedAPI.getProblemByArray(problems);
             HttpResponse<String> response = SolvedAPI.solvedacAPIRequest(uri);
-            JsonArray JsonProblems = parser.parse(response.body()).getAsJsonArray();
+            JsonArray JsonProblems = JsonParser.parseString(response.body()).getAsJsonArray();
             problemService.saveProblems(JsonProblems);
         }
     }
@@ -68,7 +66,7 @@ public class SolvedAPIController {
     public ResponseEntity<String> fetchAndSaveUser(@PathVariable String username) throws IOException, InterruptedException{
         String uri = SolvedAPI.getUserByName(username);
         HttpResponse<String> response = SolvedAPI.solvedacAPIRequest(uri);
-        JsonObject originJson = parser.parse(response.body()).getAsJsonObject();
+        JsonObject originJson = JsonParser.parseString(response.body()).getAsJsonObject();
         JsonObject JsonUser = originJson.getAsJsonArray("items").get(0).getAsJsonObject();
         if (originJson.get("count").getAsInt() == 1){
 
@@ -85,7 +83,7 @@ public class SolvedAPIController {
             for (int page = 1; page <= endPage; page++){
                 uri = SolvedAPI.getUserSolvedProblemByName(username, page);
                 response = SolvedAPI.solvedacAPIRequest(uri);
-                originJson = parser.parse(response.body()).getAsJsonObject();
+                originJson = JsonParser.parseString(response.body()).getAsJsonObject();
                 userProblemMappingService.saveUserProblemMapping(originJson, user);
             }
             return ResponseEntity.ok("User fetched successfully.");
